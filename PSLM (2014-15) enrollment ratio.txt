@@ -22,13 +22,6 @@ create table secb (
 );
 
 
-
-
-
-
-
-
-
 create table secc (
 	hhcode numeric,
 	psu numeric,
@@ -53,13 +46,6 @@ create table secc (
 
 
 
-
-
-
-
-
-
-
 CREATE TABLE secbc AS (
 select b.hhcode, b.idc, b.province, b.district, b.sbq04 as gender, b.age, scq03, scq04, scq05, scq06, scq07
 from secb as b
@@ -67,26 +53,6 @@ left join secc as c
 on b.hhcode = c.hhcode and b.idc = c.idc
 order by hhcode, idc
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
