@@ -1,0 +1,112 @@
+create table secb (
+	hhcode numeric,
+	psu numeric,
+	province text,
+	region text,
+	district text,
+	sec text,
+	idc numeric,
+	sbq02 text,
+	sbq03 text,
+	sbq04 text,
+	sbq05 text,
+	sbq61 numeric,
+	sbq62 numeric,
+	sbq63 numeric, 
+	age numeric,
+	sbq07 text,
+	sbq08 text,
+	sbq09 numeric,
+	sbq10 numeric,
+	sbq11 text
+);
+
+
+
+
+
+
+
+
+
+create table secc (
+	hhcode numeric,
+	psu numeric,
+	province text,
+	region	text,
+	district	text,
+	hh numeric,
+	sec	text,
+	idc	numeric,
+	scq01	text,
+	scq02	text,
+	scq03	text,
+	scq04	text,
+	scq05	text,
+	scq06	text,
+	scq07	text,
+	scq81	text,
+	scq82	text,
+	scq91	text,
+	scq92 text
+);
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE secbc AS (
+select b.hhcode, b.idc, b.province, b.district, b.sbq04 as gender, b.age, scq03, scq04, scq05, scq06, scq07
+from secb as b
+left join secc as c
+on b.hhcode = c.hhcode and b.idc = c.idc
+order by hhcode, idc
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WITH g 
+AS ( SELECT district, COUNT(*) *1.0 AS school_going_count 
+       FROM secbc
+      WHERE age >= 6 and age <=18 and scq05 = 'yes'
+     GROUP 
+         BY district),
+a
+AS ( SELECT  district, COUNT(*) AS school_age_count
+       FROM secbc 
+      WHERE age BETWEEN 6 AND 18
+     GROUP 
+         BY district )
+SELECT a.district, g.school_going_count 
+     , a.school_age_count
+     , round(g.school_going_count / 
+         a.school_age_count,2) AS Ratio            
+  FROM g
+INNER
+  JOIN a
+    ON a.district = g.district;
