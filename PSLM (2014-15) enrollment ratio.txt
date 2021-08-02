@@ -21,7 +21,6 @@ create table secb (
 	sbq11 text
 );
 
-
 create table secc (
 	hhcode numeric,
 	psu numeric,
@@ -43,8 +42,6 @@ create table secc (
 	scq91	text,
 	scq92 text
 );
-
-
 
 CREATE TABLE secbc AS (
 select b.hhcode, b.idc, b.province, b.district, b.sbq04 as gender, b.age, scq03, scq04, scq05, scq06, scq07
